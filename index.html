@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Portfolio Tracker (Nov 2025 - June 2029)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #0f172a, #312e81, #0f172a);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Investment Portfolio Tracker</h1>
+            <p class="text-indigo-200">November 2025 → June 2029 | Track your journey to $70k-$103k</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex flex-wrap gap-2 justify-center mb-6">
+            <button onclick="showView('overview')" id="btn-overview" class="px-4 py-2 rounded-lg font-semibold transition bg-indigo-500 text-white">
+                📊 Overview
+            </button>
+            <button onclick="showView('plan')" id="btn-plan" class="px-4 py-2 rounded-lg font-semibold transition bg-slate-700 text-slate-300 hover:bg-slate-600">
+                🎯 Investment Plan
+            </button>
+            <button onclick="showView('purchases')" id="btn-purchases" class="px-4 py-2 rounded-lg font-semibold transition bg-slate-700 text-slate-300 hover:bg-slate-600">
+                📅 My Purchases
+            </button>
+        </div>
+
+        <!-- Overview View -->
+        <div id="view-overview" class="view-container">
+            <!-- Current Phase Alert -->
+            <div class="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 rounded-xl p-4 mb-6 border border-indigo-500/30">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📅</span>
+                    <div>
+                        <h3 id="current-phase-name" class="text-lg font-bold text-white"></h3>
+                        <p id="current-phase-dates" class="text-indigo-200 text-sm"></p>
+                        <p id="current-phase-targets" class="text-indigo-100 text-sm mt-1"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Cards -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="progress-cards">
+                <!-- Cards will be inserted here -->
+            </div>
+
+            <!-- Overall Progress -->
+            <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 mb-6">
+                <h3 class="text-xl font-bold text-white mb-4">Overall Investment Progress</h3>
+                
+                <div class="grid md:grid-cols-3 gap-6 mb-6">
+                    <div>
+                        <p class="text-slate-400 text-sm mb-1">Total Invested</p>
+                        <p id="total-invested" class="text-3xl font-bold text-white">$0</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-400 text-sm mb-1">Target by June 2029</p>
+                        <p class="text-3xl font-bold text-indigo-400">$38,786</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-400 text-sm mb-1">Remaining to Invest</p>
+                        <p id="remaining-to-invest" class="text-3xl font-bold text-purple-400">$38,786</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="text-slate-300">Overall Progress</span>
+                        <span id="overall-progress-percent" class="text-white font-bold">0.0%</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-4">
+                        <div id="overall-progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-4 rounded-full transition-all" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-blue-900/30 rounded-xl p-6 border border-blue-500/30 mb-6">
+                <h3 class="text-xl font-bold text-white mb-2">Total Value in Canadian Dollar (CAD)</h3>
+                
+                <div class="flex justify-between items-end">
+                    <div>
+                        <p class="text-blue-300 text-sm mb-1">Current Real-Time Portfolio Value (CAD)</p>
+                        <p id="total-value-cad" class="text-3xl font-bold text-white">
+                            $ Loading...
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-purple-900/30 rounded-xl p-6 border border-purple-500/30 mb-6">
+                <h3 class="text-xl font-bold text-white mb-2">Total Value in Indonesian Rupiah (IDR)</h3>
+                <div class="flex justify-between items-end">
+                    <div>
+                        <p class="text-purple-300 text-sm mb-1">Current Portfolio Value (IDR)</p>
+                        <p id="total-invested-idr" class="text-3xl font-bold text-white">
+                            Rp Loading...
+                        </p>
+                    </div>
+                    
+                    <div class="text-right">
+                        <p id="idr-exchange-rate" class="text-purple-200 text-sm">
+                            1 CAD ≈ Loading... IDR
+                        </p>
+                    </div>
+                </div>
+            </div>
+            ```
+
+            <!-- Projected Value -->
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl p-6 border border-blue-500/30">
+                    <h4 class="text-blue-300 font-semibold mb-2">Conservative</h4>
+                    <p class="text-3xl font-bold text-white mb-1">$61,500</p>
+                    <p class="text-blue-200 text-sm">Even if markets are weak</p>
+                </div>
+                <div class="bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl p-6 border border-green-500/30">
+                    <h4 class="text-green-300 font-semibold mb-2">Most Likely</h4>
+                    <p class="text-3xl font-bold text-white mb-1">$79,800</p>
+                    <p class="text-green-200 text-sm">Standard market performance</p>
+                </div>
+                <div class="bg-gradient-to-br from-purple-900/30 to-purple-800/30 rounded-xl p-6 border border-purple-500/30">
+                    <h4 class="text-purple-300 font-semibold mb-2">Optimistic</h4>
+                    <p class="text-3xl font-bold text-white mb-1">$103,400</p>
+                    <p class="text-purple-200 text-sm">Strong bull cycle</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Plan View -->
+        <div id="view-plan" class="view-container hidden">
+            <div class="space-y-4" id="plan-phases">
+                <!-- Phases will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Purchases View -->
+        <div id="view-purchases" class="view-container hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">My Purchase History</h2>
+                <button onclick="toggleAddForm()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition">
+                    ➕ Add Purchase
+                </button>
+            </div>
+
+            <!-- Add Purchase Form -->
+            <div id="add-purchase-form" class="bg-slate-800 rounded-xl p-6 border border-slate-700 mb-6 hidden">
+                <h3 class="text-lg font-bold text-white mb-4">Record New Purchase</h3>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="text-slate-300 text-sm block mb-2">Date</label>
+                        <input type="date" id="input-date" class="w-full bg-slate-700 text-white rounded-lg px-4 py-2 border border-slate-600 focus:border-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="text-slate-300 text-sm block mb-2">Asset</label>
+                        <select id="input-asset" class="w-full bg-slate-700 text-white rounded-lg px-4 py-2 border border-slate-600 focus:border-indigo-500 focus:outline-none">
+                            <option value="btc">Bitcoin</option>
+                            <option value="stocks">Stocks</option>
+                            <option value="gold">Gold</option>
+                            <option value="cash">Cash Reserve</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-slate-300 text-sm block mb-2">Amount (CAD)</label>
+                        <input type="number" id="input-amount" placeholder="100" class="w-full bg-slate-700 text-white rounded-lg px-4 py-2 border border-slate-600 focus:border-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label id="price-unit-label" class="text-slate-300 text-sm block mb-2">Price per BTC</label>                        <input type="number" id="input-price" placeholder="1000000" class="w-full bg-slate-700 text-white rounded-lg px-4 py-2 border border-slate-600 focus:border-indigo-500 focus:outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-slate-300 text-sm block mb-2">Notes (optional)</label>
+                        <input type="text" id="input-notes" placeholder="Weekly DCA purchase" class="w-full bg-slate-700 text-white rounded-lg px-4 py-2 border border-slate-600 focus:border-indigo-500 focus:outline-none">
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="savePurchase()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+                        Save Purchase
+                    </button>
+                    <button onclick="toggleAddForm()" class="bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Purchase List -->
+            <div id="purchase-list">
+                <!-- Purchases will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let purchases = [];
+        let exchangeRates = {
+            usdToCad: 1.35,     // Default Fallback
+            cadToIdr: 11884.28, // Default Fallback
+            btcPriceCad: 0,
+            stocksPriceUsd: 0,
+            goldPriceUsd: 0
+        };
+        
+        // Asset configuration
+        const assetConfig = {
+            btc: { name: 'Bitcoin', icon: '₿', color: 'orange', unit: 'BTC' },
+            stocks: { name: 'S&P 500 (SPY)', icon: '📈', color: 'blue', unit: 'shares (USD)' },
+            gold: { name: 'Gold (GLD)', icon: '🥇', color: 'yellow', unit: 'shares (USD)' }, 
+            cash: { name: 'Cash Reserve', icon: '💵', color: 'green', unit: 'CAD' }
+        };
+
+        // Investment phases
+        const phases = [
+            { name: 'Phase 1: Wait & Save', start: '2025-11-01', end: '2025-12-31', btc: 0, stocks: 0, gold: 0, cash: 902 },
+            { name: 'Phase 2: Bear Market DCA', start: '2026-01-01', end: '2026-12-31', btc: 450, stocks: 270, gold: 90, cash: 92 },
+            { name: 'Phase 3: Deep Bear Accumulation', start: '2027-01-01', end: '2027-12-31', btc: 550, stocks: 200, gold: 52, cash: 100 },
+            { name: 'Phase 4: Recovery & Exit Prep', start: '2028-01-01', end: '2029-06-30', btc: 400, stocks: 300, gold: 102, cash: 100 }
+        ];
+
+        // Expected totals
+        const expectedTotals = {
+            btc: (450 * 12) + (550 * 12) + (400 * 17),
+            stocks: (270 * 12) + (200 * 12) + (300 * 17),
+            gold: (90 * 12) + (52 * 12) + (102 * 17),
+            cash: (902 * 2) + (92 * 12) + (100 * 12) + (100 * 17)
+        };
+        
+        // =========================================================
+        // === API KEYS AND LIVE PRICE FETCHING LOGIC (UPDATED) ====
+        // =========================================================
+        
+        const COINGECKO_API_KEY = "CG-SRJ1TtiCfTHSSW7fEnUq4gYe";
+        const FINNHUB_API_KEY = "d3t26d1r01qqdgfts7h0d3t26d1r01qqdgfts7hg"; 
+        
+        const TICKERS = {
+            btc: { symbol: 'bitcoin', currency: 'cad' },
+            stocks: { symbol: 'SPY' }, 
+            gold: { symbol: 'GLD' },   
+        };
+        
+        // --- CORE FUNCTION TO FETCH ALL MARKET DATA ---
+        async function fetchLivePrices() {
+            
+            // --- 1. Fetch Forex Rates (USD/CAD and CAD/IDR) ---
+            try {
+                let usdCadUrl = `https://finnhub.io/api/v1/forex/rate?base=USD&to=CAD&token=${FINNHUB_API_KEY}`;
+                let cadIdrUrl = `https://finnhub.io/api/v1/forex/rate?base=CAD&to=IDR&token=${FINNHUB_API_KEY}`;
+                
+                const [usdCadResponse, cadIdrResponse] = await Promise.all([
+                    fetch(usdCadUrl), 
+                    fetch(cadIdrUrl)
+                ]);
+                
+                const [usdCadData, cadIdrData] = await Promise.all([
+                    usdCadResponse.json(), 
+                    cadIdrResponse.json()
+                ]);
+                
+                // Finnhub response structure requires navigating to the 'rate' key
+                exchangeRates.usdToCad = usdCadData.rate || 1.35;
+                exchangeRates.cadToIdr = cadIdrData.rate || 11884.28;
+                
+                document.getElementById('idr-exchange-rate').textContent = `1 CAD ≈ ${Math.round(exchangeRates.cadToIdr).toLocaleString()} IDR`;
+
+            } catch (error) {
+                console.error("Forex Rate Error (using fallback):", error);
+                document.getElementById('idr-exchange-rate').textContent = `1 CAD ≈ ${Math.round(exchangeRates.cadToIdr).toLocaleString()} IDR (Fallback)`;
+                // Keep using fallback rates on error
+            }
+
+            // --- 2. Fetch Asset Prices ---
+            
+            // 2.1 Bitcoin Price (CAD)
+            try {
+                const btcUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${TICKERS.btc.symbol}&vs_currencies=${TICKERS.btc.currency}&x_cg_demo_api_key=${COINGECKO_API_KEY}`;
+                const btcResponse = await fetch(btcUrl);
+                const btcData = await btcResponse.json();
+                exchangeRates.btcPriceCad = btcData[TICKERS.btc.symbol][TICKERS.btc.currency] || 0; 
+                
+                document.getElementById('btc-price-current').textContent = `$${exchangeRates.btcPriceCad.toLocaleString('en-US', { maximumFractionDigits: 2 })} CAD`;
+            } catch (error) {
+                document.getElementById('btc-price-current').textContent = 'BTC Data Error';
+            }
+
+            // 2.2 Stocks (SPY) Price (USD)
+            try {
+                const stocksUrl = `https://finnhub.io/api/v1/quote?symbol=${TICKERS.stocks.symbol}&token=${FINNHUB_API_KEY}`;
+                const stocksResponse = await fetch(stocksUrl);
+                const stocksData = await stocksResponse.json();
+                exchangeRates.stocksPriceUsd = stocksData.c || 0; 
+                
+                document.getElementById('stocks-price-current').textContent = `$${exchangeRates.stocksPriceUsd.toLocaleString('en-US', { maximumFractionDigits: 2 })} USD`;
+            } catch (error) {
+                document.getElementById('stocks-price-current').textContent = 'Stocks Data Error';
+            }
+            
+            // 2.3 Gold (GLD) Price (USD -> CAD/gram)
+            try {
+                const goldUrl = `https://finnhub.io/api/v1/quote?symbol=${TICKERS.gold.symbol}&token=${FINNHUB_API_KEY}`;
+                const goldResponse = await fetch(goldUrl);
+                const goldData = await goldResponse.json();
+                exchangeRates.goldPriceUsd = goldData.c || 0;
+                
+               // Display the USD price per share
+                document.getElementById('gold-price-current').textContent = `$${exchangeRates.goldPriceUsd.toLocaleString('en-US', { maximumFractionDigits: 2 })} USD`;
+            } catch (error) {
+                document.getElementById('gold-price-current').textContent = 'Gold Data Error';
+            }
+            
+            // --- 3. Update Totals (Must be done AFTER all rates and prices are fetched) ---
+            updateOverview();
+
+            // Rerun the function after a delay (e.g., 60 seconds)
+            setTimeout(fetchLivePrices, 60000); 
+        }
+        
+        // --- NEW FUNCTION: IDR ALIGNMENT ---
+        function calculateRealTimeCadValue(invested, quantities) {
+            let totalCadValue = invested.cash; // Start with cash reserve (already in CAD)
+
+            // 1. BTC (Price is already CAD)
+            totalCadValue += quantities.btc * exchangeRates.btcPriceCad;
+
+            // 2. Stocks (USD -> CAD)
+            // Stock Price is USD per share (SPY)
+            const stocksUsdValue = quantities.stocks * exchangeRates.stocksPriceUsd;
+            totalCadValue += stocksUsdValue * exchangeRates.usdToCad;
+
+            // 3. Gold (USD -> CAD)
+            // Gold is calculated in CAD/gram in the display, but here we use the raw USD value for calculation simplicity
+            const goldUsdValue = quantities.gold * exchangeRates.goldPriceUsd;
+            totalCadValue += goldUsdValue * exchangeRates.usdToCad;
+
+            return totalCadValue;
+        }
+
+        // Renamed to reflect it's updating both CAD and IDR
+        function updateTotalValueVisuals() { 
+            const { invested, quantities } = calculateTotals();
+            
+            // Calculate total real-time value in CAD
+            const totalRealTimeCadValue = calculateRealTimeCadValue(invested, quantities);
+
+            // --- 1. Update the NEW CAD Value Box ---
+            document.getElementById('total-value-cad').textContent = 
+                `$${totalRealTimeCadValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+            // --- 2. Update the Existing IDR Value Box ---
+            // Convert to IDR
+            const totalRealTimeIDR = totalRealTimeCadValue * exchangeRates.cadToIdr;
+            
+            // Update the HTML element
+            document.getElementById('total-invested-idr').textContent = `Rp ${Math.round(totalRealTimeIDR).toLocaleString('en-US')}`;
+        }
+        
+        // =========================================================
+        // === END NEW CODE - REST OF ORIGINAL LOGIC FOLLOWS =======
+        // =========================================================
+
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPurchases();
+            setTodayDate();
+            updateUnitLabel();
+            renderCurrentPhase();
+            renderPlanPhases();
+            updateOverview();
+            fetchLivePrices(); // <-- Start the price fetching when the page loads!
+            
+            // Update unit label when asset changes
+            document.getElementById('input-asset').addEventListener('change', updateUnitLabel);
+        });
+
+        function loadPurchases() {
+            const saved = localStorage.getItem('investmentPurchases');
+            if (saved) {
+                purchases = JSON.parse(saved);
+            }
+        }
+
+        function savePurchasesToStorage() {
+            localStorage.setItem('investmentPurchases', JSON.stringify(purchases));
+        }
+
+        function setTodayDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('input-date').value = today;
+        }
+
+        function updateUnitLabel() {
+            const asset = document.getElementById('input-asset').value;
+            const config = assetConfig[asset];
+            const labelElement = document.getElementById('price-unit-label');
+            // Get the whole div that contains the price input
+            const priceContainer = document.getElementById('input-price').parentElement;
+
+            if (asset === 'cash') {
+                // Hide the price input entirely for 'cash'
+                priceContainer.style.display = 'none'; 
+            } else if (config.unit === 'shares (USD)') {
+                labelElement.textContent = 'Price Per Share (USD)';
+                priceContainer.style.display = 'block'; // Show it
+            } else {
+                // Default for BTC
+                labelElement.textContent = `Price per ${config.unit}`;
+                priceContainer.style.display = 'block'; // Show it
+            }
+        }
+
+        function getCurrentPhase() {
+            const today = new Date();
+            return phases.find(phase => {
+                const start = new Date(phase.start);
+                const end = new Date(phase.end);
+                return today >= start && today <= end;
+            }) || phases[0];
+        }
+
+        function renderCurrentPhase() {
+            const phase = getCurrentPhase();
+            document.getElementById('current-phase-name').textContent = phase.name;
+            document.getElementById('current-phase-dates').textContent = `${phase.start} to ${phase.end}`;
+            document.getElementById('current-phase-targets').textContent = 
+                `Monthly target: BTC $${phase.btc} | Stocks $${phase.stocks} | Gold $${phase.gold} | Cash $${phase.cash}`;
+        }
+
+        function renderPlanPhases() {
+            const container = document.getElementById('plan-phases');
+            container.innerHTML = phases.map(phase => `
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">${phase.name}</h3>
+                        <span class="text-slate-400 text-sm">${phase.start} → ${phase.end}</span>
+                    </div>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="bg-orange-900/20 p-4 rounded-lg border border-orange-500/30">
+                            <p class="text-orange-400 text-sm mb-1">Bitcoin</p>
+                            <p class="text-2xl font-bold text-white">$${phase.btc}/month</p>
+                            <p class="text-slate-400 text-xs mt-1">≈ $${Math.round(phase.btc / 4.33)}/week</p>
+                        </div>
+                        <div class="bg-blue-900/20 p-4 rounded-lg border border-blue-500/30">
+                            <p class="text-blue-400 text-sm mb-1">Stocks</p>
+                            <p class="text-2xl font-bold text-white">$${phase.stocks}/month</p>
+                        </div>
+                        <div class="bg-yellow-900/20 p-4 rounded-lg border border-yellow-500/30">
+                            <p class="text-yellow-400 text-sm mb-1">Gold</p>
+                            <p class="text-2xl font-bold text-white">$${phase.gold}/month</p>
+                        </div>
+                        <div class="bg-green-900/20 p-4 rounded-lg border border-green-500/30">
+                            <p class="text-green-400 text-sm mb-1">Cash Reserve</p>
+                            <p class="text-2xl font-bold text-white">$${phase.cash}/month</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function calculateTotals() {
+            const invested = { btc: 0, stocks: 0, gold: 0, cash: 0 };
+            const quantities = { btc: 0, stocks: 0, gold: 0 };
+            
+            purchases.forEach(p => {
+                invested[p.asset] += p.amountCAD;
+                if (p.asset !== 'cash') {
+                    quantities[p.asset] += p.quantity;
+                }
+            });
+            
+            return { invested, quantities };
+        }
+
+        function updateOverview() {
+            const { invested, quantities } = calculateTotals();
+            const totalInvested = Object.values(invested).reduce((a, b) => a + b, 0);
+            const totalExpected = Object.values(expectedTotals).reduce((a, b) => a + b, 0);
+            const overallProgress = totalInvested > 0 ? (totalInvested / totalExpected * 100) : 0;
+
+            // Update overall stats
+            document.getElementById('total-invested').textContent = `$${totalInvested.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+            document.getElementById('remaining-to-invest').textContent = `$${(totalExpected - totalInvested).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+            document.getElementById('overall-progress-percent').textContent = `${overallProgress.toFixed(1)}%`;
+            document.getElementById('overall-progress-bar').style.width = `${Math.min(overallProgress, 100)}%`;
+            
+            // Recalculate CAD and IDR visualization on every overview update
+            updateTotalValueVisuals();
+
+
+            // Update progress cards
+            const cardsContainer = document.getElementById('progress-cards');
+            cardsContainer.innerHTML = Object.entries(assetConfig).map(([key, config]) => {
+                const avgCost = invested[key] > 0 && key !== 'cash' ? invested[key] / quantities[key] : 0;
+                const progress = invested[key] > 0 ? (invested[key] / expectedTotals[key] * 100) : 0;
+                
+                let priceDisplay = 'Loading...';
+                if (key === 'cash') {
+                    priceDisplay = `$1.00 CAD`;
+                } else if (key === 'btc') {
+                    priceDisplay = `$${exchangeRates.btcPriceCad.toLocaleString('en-US', { maximumFractionDigits: 2 })} CAD`;
+                } else if (key === 'stocks') {
+                    priceDisplay = `$${exchangeRates.stocksPriceUsd.toLocaleString('en-US', { maximumFractionDigits: 2 })} USD`;
+                } else if (key === 'gold') {
+                    // Display the price per share in USD
+                    priceDisplay = `$${exchangeRates.goldPriceUsd.toLocaleString('en-US', { maximumFractionDigits: 2 })} USD`;
+                }
+                
+                return `
+                    <div class="bg-slate-800 rounded-xl p-4 border border-slate-700">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="bg-${config.color}-900/30 p-2 rounded-lg border border-${config.color}-500/30">
+                                <span class="text-2xl">${config.icon}</span>
+                            </div>
+                            <h3 class="font-bold text-white">${config.name}</h3>
+                        </div>
+                        <div class="space-y-2">
+                            <div>
+                                <p class="text-slate-400 text-xs">Invested</p>
+                                <p class="text-xl font-bold text-white">$${invested[key].toLocaleString('en-US', { maximumFractionDigits: 0 })}</p>
+                            </div>
+                            ${key !== 'cash' ? `
+                                <div>
+                                    <p class="text-slate-400 text-xs">Quantity</p>
+                                    <p class="text-sm text-slate-300">${quantities[key].toFixed(key === 'btc' ? 6 : 2)} ${config.unit}</p>
+                                </div>
+                            ` : ''}
+                            ${key !== 'cash' && avgCost > 0 ? `
+                                <div>
+                                    <p class="text-slate-400 text-xs">Avg Cost</p>
+                                    <p class="text-sm text-slate-300">$${avgCost.toLocaleString('en-US', { maximumFractionDigits: 2 })}</p>
+                                </div>
+                            ` : ''}
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-slate-400">Progress</span>
+                                    <span class="text-slate-300">${progress.toFixed(1)}%</span>
+                                </div>
+                                <div class="w-full bg-slate-700 rounded-full h-2">
+                                    <div class="bg-${config.color}-500 h-2 rounded-full transition-all" style="width: ${Math.min(progress, 100)}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="pt-2">
+                                <p class="text-slate-400 text-xs">Current Price</p>
+                                <span id="${key}-price-current" class="text-sm font-bold text-indigo-300">
+                                    ${priceDisplay} 
+                                </span>
+                            </div>
+                            </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderPurchases() {
+            const container = document.getElementById('purchase-list');
+            
+            if (purchases.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-slate-800 rounded-xl p-12 border border-slate-700 text-center">
+                        <span class="text-6xl">🐷</span>
+                        <p class="text-slate-400 text-lg mt-4">No purchases recorded yet</p>
+                        <p class="text-slate-500 text-sm mt-2">Click "Add Purchase" to start tracking your investments</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const sorted = [...purchases].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            container.innerHTML = `
+                <div class="space-y-3">
+                    ${sorted.map(p => {
+                        const config = assetConfig[p.asset];
+                        const date = new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        
+                        return `
+                            <div class="bg-slate-800 rounded-xl p-4 border border-slate-700 hover:border-slate-600 transition">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <div class="bg-${config.color}-900/30 p-3 rounded-lg border border-${config.color}-500/30">
+                                            <span class="text-2xl">${config.icon}</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white font-semibold">${config.name}</h4>
+                                            <p class="text-slate-400 text-sm">${date}</p>
+                                            ${p.notes ? `<p class="text-slate-500 text-xs mt-1">${p.notes}</p>` : ''}
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-6">
+                                        <div class="text-right">
+                                            <p class="text-slate-400 text-xs">Invested</p>
+                                            <p class="text-white font-bold text-lg">$${p.amountCAD.toLocaleString('en-US', { maximumFractionDigits: 2 })}</p>
+                                        </div>
+                                        ${p.asset !== 'cash' ? `
+                                            <div class="text-right">
+                                                <p class="text-slate-400 text-xs">Quantity</p>
+                                                <p class="text-slate-300 text-sm">${p.quantity.toFixed(p.asset === 'btc' ? 6 : 2)} ${config.unit}</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="text-slate-400 text-xs">Price</p>
+                                                <p class="text-slate-300 text-sm">$${p.price.toLocaleString('en-US', { maximumFractionDigits: 2 })}</p>
+                                            </div>
+                                        ` : ''}
+                                        <button onclick="deletePurchase(${p.id})" class="text-red-400 hover:text-red-300 p-2 transition">
+                                            🗑️
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function showView(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view-container').forEach(v => v.classList.add('hidden'));
+            
+            // Show selected view
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            
+            // Update buttons
+            document.querySelectorAll('[id^="btn-"]').forEach(btn => {
+                btn.classList.remove('bg-indigo-500', 'text-white');
+                btn.classList.add('bg-slate-700', 'text-slate-300');
+            });
+            document.getElementById(`btn-${viewName}`).classList.remove('bg-slate-700', 'text-slate-300');
+            document.getElementById(`btn-${viewName}`).classList.add('bg-indigo-500', 'text-white');
+            
+            // Render purchases if viewing that tab
+            if (viewName === 'purchases') {
+                renderPurchases();
+            }
+        }
+
+        function toggleAddForm() {
+            const form = document.getElementById('add-purchase-form');
+            form.classList.toggle('hidden');
+            if (!form.classList.contains('hidden')) {
+                setTodayDate();
+            }
+        }
+
+        function savePurchase() {
+            const date = document.getElementById('input-date').value;
+            const asset = document.getElementById('input-asset').value;
+            const amountCAD = parseFloat(document.getElementById('input-amount').value);
+            const notes = document.getElementById('input-notes').value;
+            
+            let price = 0;
+            let quantity = 0;
+
+            if (asset !== 'cash') {
+                // Standard logic for BTC, Stocks, Gold
+                price = parseFloat(document.getElementById('input-price').value);
+                
+                if (!amountCAD || !price) {
+                    alert('Please fill in amount and price');
+                    return;
+                }
+                
+                // For Stocks and Gold, the price is in USD. 
+                // We must convert amountCAD to amountUSD first before calculating quantity.
+                if (assetConfig[asset].unit === 'shares (USD)') {
+                    const amountUSD = amountCAD / exchangeRates.usdToCad;
+                    quantity = amountUSD / price;
+                } else {
+                    // For BTC, price is in CAD
+                    quantity = amountCAD / price;
+                }
+                
+            } else {
+                // Special logic for 'cash'
+                if (!amountCAD) {
+                     alert('Please fill in amount');
+                     return;
+                }
+                price = 1; // Price is 1:1 for cash
+                quantity = amountCAD;
+            }
+            
+            purchases.push({
+                id: Date.now(),
+                date,
+                asset,
+                amountCAD,
+                price,
+                quantity,
+                notes
+            });
+            
+            savePurchasesToStorage();
+            
+            // Reset form
+            document.getElementById('input-amount').value = '';
+            document.getElementById('input-price').value = '';
+            document.getElementById('input-notes').value = '';
+            setTodayDate();
+            
+            toggleAddForm();
+            renderPurchases();
+            updateOverview();
+        }
+
+        function deletePurchase(id) {
+            if (confirm('Are you sure you want to delete this purchase?')) {
+                purchases = purchases.filter(p => p.id !== id);
+                savePurchasesToStorage();
+                renderPurchases();
+                updateOverview();
+            }
+        }
+    </script>
+</body>
+</html>
